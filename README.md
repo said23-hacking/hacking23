@@ -1,2 +1,7 @@
 # hacking23
-aqui se hara de todo.
+
+Mi primer proyecto de programación.
+
+Aquí desarrollaré un sistema de autenticación y aprenderé sobre seguridad informática.
+
+Estado: En desarrollo.
