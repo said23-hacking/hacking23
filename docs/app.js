@@ -1,8 +1,55 @@
 (() => {
+  const gameModules = {
+    snake: {
+      createState: () => ({snake:[{x:10,y:9},{x:9,y:9},{x:8,y:9}],dir:{x:1,y:0},next:{x:1,y:0},food:{x:15,y:7},elapsed:0,step:0}),
+      update: updateSnake,
+      draw: drawSnake,
+      keyDown(key) {
+        const direction = {arrowup:{x:0,y:-1},w:{x:0,y:-1},arrowdown:{x:0,y:1},s:{x:0,y:1},arrowleft:{x:-1,y:0},a:{x:-1,y:0},arrowright:{x:1,y:0},d:{x:1,y:0}}[key];
+        if (direction && state && !(direction.x === -state.dir.x && direction.y === -state.dir.y)) state.next = direction;
+      },
+      touchDown(action) {
+        const direction = {up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[action];
+        if (direction && state && !(direction.x === -state.dir.x && direction.y === -state.dir.y)) state.next = direction;
+      }
+    },
+    pong: {
+      createState: () => ({paddle:W/2,ball:{x:W/2,y:H/2,vx:210,vy:145},elapsed:0,keysLeft:false,keysRight:false,playerY:H/2,cpuY:H/2}),
+      update: updatePong,
+      draw: drawPong,
+      keyDown(key) {
+        if (!state) return;
+        if (key === 'arrowleft' || key === 'a') state.keysLeft = true;
+        if (key === 'arrowright' || key === 'd') state.keysRight = true;
+      },
+      keyUp(key) {
+        if (!state) return;
+        if (key === 'arrowleft' || key === 'a') state.keysLeft = false;
+        if (key === 'arrowright' || key === 'd') state.keysRight = false;
+      },
+      touchDown(action) {
+        if (!state) return;
+        if (action === 'left') state.keysLeft = true;
+        if (action === 'right') state.keysRight = true;
+      },
+      touchUp(action) {
+        if (!state) return;
+        if (action === 'left') state.keysLeft = false;
+        if (action === 'right') state.keysRight = false;
+      }
+    },
+    dash: {
+      createState: () => ({runner:{y:0,vy:0,ground:true},obstacles:[],elapsed:0,next:1.25,clouds:[{x:170,y:55},{x:410,y:82}],dead:false}),
+      update: updateDash,
+      draw: drawDash,
+      keyDown(key) { if ([' ','arrowup','w'].includes(key)) jump(); },
+      touchDown(action) { if (action === 'jump') jump(); }
+    }
+  };
   const games = [
-    {id:'snake', name:'Neon Snake', category:'arcade', kicker:'MINI ARCADE / JUEGO 01', instructions:'Usa las flechas para moverte. Come los puntos y no choques.'},
-    {id:'pong', name:'Micro Pong', category:'skill', kicker:'MINI ARCADE / JUEGO 02', instructions:'Mueve la raqueta con ← y →. Rebota la pelota todo lo que puedas.'},
-    {id:'dash', name:'Pixel Dash', category:'arcade', kicker:'MINI ARCADE / JUEGO 03', instructions:'Pulsa ESPACIO, ↑ o SALTAR para esquivar. Sobrevive cuanto puedas.'}
+    {id:'snake', name:'Neon Snake', category:'arcade', kicker:'MINI ARCADE / JUEGO 01', instructions:'Usa las flechas para moverte. Come los puntos y no choques.', controls:'<span class="keycap">←</span><span class="keycap">↑</span><span class="keycap">↓</span><span class="keycap">→</span> mover', touchControls:['up','down','left','right'], module:gameModules.snake},
+    {id:'pong', name:'Micro Pong', category:'skill', kicker:'MINI ARCADE / JUEGO 02', instructions:'Mueve la raqueta con ← y →. Rebota la pelota todo lo que puedas.', controls:'<span class="keycap">←</span><span class="keycap">→</span> mover la raqueta', touchControls:['left','right'], module:gameModules.pong},
+    {id:'dash', name:'Pixel Dash', category:'arcade', kicker:'MINI ARCADE / JUEGO 03', instructions:'Pulsa ESPACIO, ↑ o SALTAR para esquivar. Sobrevive cuanto puedas.', controls:'<span class="keycap">SPACE</span><span class="keycap">↑</span> saltar', touchControls:['jump'], module:gameModules.dash}
   ];
   const canvas = document.querySelector('#game-canvas');
   const ctx = canvas.getContext('2d');
@@ -66,11 +113,11 @@
     document.querySelector('#start-game').textContent = 'INICIAR PARTIDA →';
     overlayTitle.textContent = '¿Listo para jugar?';
     overlayCopy.textContent = current.instructions;
-    hint.innerHTML = current.id === 'dash' ? '<span class="keycap">SPACE</span><span class="keycap">↑</span> saltar' : current.id === 'pong' ? '<span class="keycap">←</span><span class="keycap">→</span> mover la raqueta' : '<span class="keycap">←</span><span class="keycap">↑</span><span class="keycap">↓</span><span class="keycap">→</span> mover';
-    jumpControl.classList.toggle('is-visible', current.id === 'dash');
+    hint.innerHTML = current.controls;
+    jumpControl.classList.toggle('is-visible', current.touchControls.includes('jump'));
     document.querySelectorAll('[data-control]').forEach(control => {
       const direction = control.dataset.control;
-      control.hidden = current.id === 'snake' ? false : current.id === 'pong' ? !['left','right'].includes(direction) : direction !== 'jump';
+      control.hidden = !current.touchControls.includes(direction);
     });
     score = 0; updateScore(); drawAttract();
     overlay.classList.remove('is-hidden');
@@ -93,9 +140,7 @@
     const dt = Math.min(.04,(now-last)/1000); last = now; update(dt); drawGame(); raf = requestAnimationFrame(tick);
   }
   function update(dt) {
-    if (current.id === 'snake') updateSnake(dt);
-    if (current.id === 'pong') updatePong(dt);
-    if (current.id === 'dash') updateDash(dt);
+    current.module.update(dt);
   }
   function gridBackground() {
     ctx.fillStyle = '#24363b'; ctx.fillRect(0,0,W,H); ctx.strokeStyle = 'rgba(245,240,230,.07)'; ctx.lineWidth = 1;
@@ -151,33 +196,26 @@
   }
   function drawGame() {
     if(!state){drawAttract();return}
-    if(current.id==='snake')drawSnake();if(current.id==='pong')drawPong();if(current.id==='dash')drawDash();
+    current.module.draw();
   }
   function drawAttract(){ctx.fillStyle='#24363b';ctx.fillRect(0,0,W,H);ctx.fillStyle=yellow;ctx.font='bold 30px "Space Grotesk",sans-serif';ctx.textAlign='center';ctx.fillText('PLAYNEXO',W/2,H/2-8);ctx.fillStyle=mint;ctx.font='13px "DM Mono",monospace';ctx.fillText('PULSA INICIAR',W/2,H/2+23)}
   document.addEventListener('keydown', e => {
     if(!dialog.open)return;
     const key=e.key.toLowerCase();
     if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(key))e.preventDefault();
-    if(current.id==='snake'){
-      const d={arrowup:{x:0,y:-1},w:{x:0,y:-1},arrowdown:{x:0,y:1},s:{x:0,y:1},arrowleft:{x:-1,y:0},a:{x:-1,y:0},arrowright:{x:1,y:0},d:{x:1,y:0}}[key];
-      if(d&&state&&!(d.x===-state.dir.x&&d.y===-state.dir.y))state.next=d;
-    }
-    if(current.id==='pong'&&state){if(key==='arrowleft'||key==='a')state.keysLeft=true;if(key==='arrowright'||key==='d')state.keysRight=true}
-    if(current.id==='dash'&&[' ','arrowup','w'].includes(key))jump();
+    current.module.keyDown?.(key);
   });
-  document.addEventListener('keyup', e=>{if(current.id==='pong'&&state){const k=e.key.toLowerCase();if(k==='arrowleft'||k==='a')state.keysLeft=false;if(k==='arrowright'||k==='d')state.keysRight=false}});
+  document.addEventListener('keyup', e=>current.module.keyUp?.(e.key.toLowerCase()));
   function jump(){if(current.id==='dash'&&running&&state&&state.runner.ground){state.runner.ground=false;state.runner.vy=-480}}
   document.querySelectorAll('[data-control]').forEach(button=>{
     const action=button.dataset.control;
-    const down=()=>{if(current.id==='dash'&&action==='jump'){jump();return}if(current.id==='pong'&&state){if(action==='left')state.keysLeft=true;if(action==='right')state.keysRight=true}if(current.id==='snake'&&state){const d={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[action];if(d&&!(d.x===-state.dir.x&&d.y===-state.dir.y))state.next=d}};
-    const up=()=>{if(current.id==='pong'&&state){if(action==='left')state.keysLeft=false;if(action==='right')state.keysRight=false}};
+    const down=()=>current.module.touchDown?.(action);
+    const up=()=>current.module.touchUp?.(action);
     button.addEventListener('pointerdown',e=>{e.preventDefault();down()});button.addEventListener('pointerup',up);button.addEventListener('pointercancel',up);button.addEventListener('pointerleave',up);
   });
   function resetGame(){
     score=0;updateScore();
-    if(current.id==='snake')state={snake:[{x:10,y:9},{x:9,y:9},{x:8,y:9}],dir:{x:1,y:0},next:{x:1,y:0},food:{x:15,y:7},elapsed:0,step:0};
-    if(current.id==='pong')state={paddle:W/2,ball:{x:W/2,y:H/2,vx:210,vy:145},elapsed:0,keysLeft:false,keysRight:false,playerY:H/2,cpuY:H/2};
-    if(current.id==='dash')state={runner:{y:0,vy:0,ground:true},obstacles:[],elapsed:0,next:1.25,clouds:[{x:170,y:55},{x:410,y:82}],dead:false};
+    state=current.module.createState();
     drawGame();
   }
 })();

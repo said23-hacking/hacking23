@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f0e6">
+  <link rel="icon" type="image/svg+xml" href="../playnexo-mark.svg">
+  <meta name="description" content="Prueba local del emulador NES de PlayNexo. El archivo permanece en tu navegador.">
+  <title>NES en navegador — PlayNexo</title>
+  <link rel="stylesheet" href="nes-player.css">
+  <script type="module" src="nes-player.js"></script>
+</head>
+<body>
+  <header class="player-header">
+    <a class="brand" href="../index.html" aria-label="Volver a PlayNexo">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>play<span class="brand-n">nexo</span></span>
+    </a>
+    <a class="back-link" href="../index.html#emulacion">← Volver a emulación</a>
+  </header>
+
+  <main class="player-main">
+    <p class="eyebrow"><span class="eyebrow-line"></span> PILOTO RETRO / NES</p>
+    <h1>Tu archivo.<br><span>Tu navegador.</span></h1>
+    <p class="intro">Esta es una prueba real de emulación NES en PlayNexo. Elige un archivo compatible que tengas derecho a utilizar; el juego se procesa localmente.</p>
+
+    <section class="player-panel" aria-labelledby="player-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">ESTADO: INTEGRADO · PRUEBA</p>
+          <h2 id="player-title">NES / Famicom</h2>
+        </div>
+        <span class="system-chip">8 BITS</span>
+      </div>
+
+      <div class="file-actions">
+        <label class="file-picker" for="rom-file">SELECCIONAR ARCHIVO .NES</label>
+        <input id="rom-file" type="file" accept=".nes,application/octet-stream">
+        <button class="button button-small" id="unload-rom" type="button" disabled>DESCARGAR DE MEMORIA</button>
+      </div>
+      <p class="file-hint">Formato iNES (.nes), hasta 16 MiB. No se aceptan archivos ZIP ni BIOS.</p>
+      <p class="status" id="player-status" role="status" aria-live="polite">Esperando un archivo compatible. Todavía no se está ejecutando ningún juego.</p>
+
+      <div class="screen-frame" id="screen-frame">
+        <div class="screen-placeholder" id="screen-placeholder">SELECCIONA TU ARCHIVO<br><span>LA PARTIDA APARECERÁ AQUÍ</span></div>
+        <div class="nes-screen" id="nes-screen" aria-label="Pantalla del emulador NES"></div>
+      </div>
+
+      <div class="touch-pad" aria-label="Controles táctiles NES">
+        <div class="dpad" aria-label="Direcciones">
+          <button type="button" data-button="up" aria-label="Arriba">↑</button>
+          <button type="button" data-button="left" aria-label="Izquierda">←</button>
+          <button type="button" data-button="down" aria-label="Abajo">↓</button>
+          <button type="button" data-button="right" aria-label="Derecha">→</button>
+        </div>
+        <div class="action-pad">
+          <button type="button" data-button="b" aria-label="Botón B">B</button>
+          <button type="button" data-button="a" aria-label="Botón A">A</button>
+        </div>
+        <div class="system-buttons">
+          <button type="button" data-button="select">SELECT</button>
+          <button type="button" data-button="start">START</button>
+        </div>
+      </div>
+      <p class="controls-note">Teclado: flechas, Z / X, Enter y Ctrl derecho. También puedes conectar un gamepad compatible. En pantalla táctil, mantén pulsados los botones.</p>
+    </section>
+
+    <section class="safety-notes" aria-label="Privacidad y limitaciones">
+      <h2>Antes de jugar</h2>
+      <ul>
+        <li>El archivo se lee desde el selector local del navegador; esta página no contiene una función para subirlo ni enviarlo a un servidor.</li>
+        <li>PlayNexo no aloja ni distribuye juegos, firmware o ROMs. La persona usuaria debe asegurarse de tener derecho a usar su archivo.</li>
+        <li>Solo se ha integrado NES/Famicom en esta prueba. Esto no emula PS3, PS4, PS5, Nintendo Switch ni Xbox.</li>
+        <li>El código de JSNES 3.0.0 se aloja en este repositorio bajo Apache License 2.0; revisa el <a href="../vendor/jsnes/3.0.0/LICENSE">aviso de licencia</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="player-footer"><span>PLAYNEXO / PILOTO NES</span><a href="../index.html">VOLVER AL PORTAL ↑</a></footer>
+</body>
+</html>
