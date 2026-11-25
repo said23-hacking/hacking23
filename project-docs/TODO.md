@@ -22,7 +22,7 @@
 - [x] Mantener todos los cambios, el código de JSNES y sus avisos en el repositorio GitHub `said23-hacking/hacking23`; no depender de servicios de Manus.
 - [x] Mantener arquitectura HTML/CSS/JS sin framework, backend ni CDN, compatible con GitHub Pages estático desde `main/docs`.
 - [x] Documentar diseño, límites, licencias, investigación y mantenimiento en `project-docs/`.
-- [ ] Subir únicamente la rama de trabajo `feat/playnexo-retro-foundation` después de las pruebas; mantener `main` y GitHub Pages intactos.
+- [x] Subir únicamente la rama de trabajo `feat/playnexo-retro-foundation` tras las pruebas; mantener `main` y GitHub Pages intactos.
 
 ## RESPONSIVE Y SEGURIDAD
 
@@ -39,4 +39,4 @@
 
 ## Estado de publicación
 
-La rama actual es `feat/playnexo-retro-foundation` y superó las comprobaciones locales. Está pendiente el push de esa rama al repositorio remoto. La fuente de Pages permanece en `main/docs`; no se modifica `main` ni se publica en Pages como parte de esta iteración.
+La rama `feat/playnexo-retro-foundation` está subida al repositorio remoto y superó las comprobaciones locales. La fuente de Pages permanece en `main/docs`; no se modifica `main` ni se publica en Pages como parte de esta iteración.
