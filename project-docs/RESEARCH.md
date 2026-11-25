@@ -28,3 +28,17 @@ El selector no comprueba si la persona posee los derechos del juego; solo valida
 - [js-dos 8.xx: metadatos y GPL-2.0](https://raw.githubusercontent.com/caiiiycuk/js-dos/8.xx/package.json)
 - [GitHub Pages: límites y tamaño publicado](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
 - [MDN File API: leer archivos que selecciona el usuario](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
+
+## Juegos homebrew para NES
+
+Se añadió Solar Wars, juego freeware de Chris Covell, desde el archivo que enlaza la página oficial del autor. El `README.TXT` de esa distribución permite descargar o transmitir el juego, prohíbe modificar el juego o el archivo ZIP sin permiso escrito y especifica conservar juntos `SolarWars2001.NES` y `README.TXT`. PlayNexo incluye ambos archivos originales, sin alterar, junto con un enlace visible a la nota. Se validó el inicio del ROM en el navegador con JSNES: el player informa de ejecución, crea su Canvas y oculta el marcador. Esta comprobación no valida toda la partida ni los controles del segundo jugador; por eso se rotula como inicio verificado, no como compatibilidad completa. [1] [2]
+
+Spacegulls de Morphcat Games se muestra como enlace a la ficha oficial. La página dice que el producto descargable incluye una ROM NES y permite elegir el precio. No encontramos en esa ficha una autorización expresa para copiar o redistribuir el archivo, así que no se aloja en PlayNexo. Aunque la ficha identifica NES ROM, falta probar la ROM descargada por el usuario con JSNES; no se afirma compatibilidad. [3]
+
+La ROM de Solar Wars se obtiene y carga desde el mismo origen del sitio cuando la persona pulsa el botón específico. La ROM que selecciona localmente cada usuario sigue leyéndose en memoria del navegador, sin subirla ni guardarla. El cambio no altera `main` ni publica Pages.
+
+### Fuentes de juegos
+
+- [1] [Página oficial de Solar Wars de Chris Covell](https://www.chrismcovell.com/solarwars.html)
+- [2] [Archivo SolarWars.zip enlazado por el autor, contiene la ROM y README.TXT](https://www.chrismcovell.com/data/SolarWars.zip)
+- [3] [Ficha oficial de Spacegulls en itch.io](https://morphcatgames.itch.io/spacegulls)

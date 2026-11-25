@@ -11,11 +11,14 @@
 
 - [x] Crear una página retro separada, enlazada desde la sección Emulación y con estado “integrado · prueba” solo para NES/Famicom.
 - [x] Comparar alternativas: EmulatorJS v4.2.3 no se incorpora por su distribución completa de 303,554,683 bytes y la revisión de licencias que exige una integración multi-sistema; JSNES 3.0.0 se elige para el piloto bajo Apache-2.0.
-- [x] Integrar código fuente ESM de JSNES en el repositorio con la licencia y metadatos de versión; no cargar el emulador desde CDN ni añadir ROMs, BIOS o paquetes de juegos.
+- [x] Integrar código fuente ESM de JSNES en el repositorio con la licencia y metadatos de versión; no cargar el emulador desde CDN ni añadir BIOS o ROMs comerciales.
 - [x] Aceptar únicamente archivos `.nes` con cabecera iNES y de hasta 16 MiB; indicar que la persona debe tener derecho a utilizar el archivo.
 - [x] Mostrar controles NES de teclado y táctiles, requisitos de formato/tamaño y estado real del sistema.
 - [x] No afirmar que PS3/PS4/PS5, Nintendo Switch o Xbox se ejecutan en esta página; las filas restantes son orientación informativa.
 - [x] No subir el archivo privado ni persistirlo deliberadamente; leerlo con `File.arrayBuffer()` en memoria local y ofrecer control para cerrar/liberar referencias.
+- [x] Añadir Solar Wars solo con su `README.TXT` original; el permiso del autor permite transmitirlo gratis, prohíbe modificaciones y exige mantener ROM y README juntos. Se conserva intacto y se enlaza el aviso.
+- [x] Probar el botón de Solar Wars con Chromium local: JSNES carga la ROM, crea Canvas y oculta el marcador de pantalla vacía. El modo de juego completo y el segundo jugador aún no se han validado; la página dice “inicio verificado”.
+- [x] Añadir Spacegulls como ficha con enlace a la página oficial de Morphcat Games. No se copia su ROM porque la ficha no confirma permiso de redistribución, y su funcionamiento en JSNES queda sin verificar.
 
 ## CONTROL DEL PROYECTO
 

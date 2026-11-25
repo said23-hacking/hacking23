@@ -65,11 +65,31 @@
       <p class="controls-note">Teclado: flechas, Z / X, Enter y Ctrl derecho. También puedes conectar un gamepad compatible. En pantalla táctil, mantén pulsados los botones.</p>
     </section>
 
+    <section class="game-library" aria-labelledby="game-library-title">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CATÁLOGO RETRO / NES</p>
+      <h2 id="game-library-title">Juegos para <span>probar.</span></h2>
+      <p class="library-intro">Empezamos con homebrew del que encontramos páginas de sus creadores. Solo incluimos en PlayNexo la ROM cuya nota autoriza expresamente su transmisión; para los demás, descarga desde la página oficial y cárgala arriba.</p>
+      <div class="homebrew-list">
+        <article class="homebrew-card">
+          <div class="homebrew-top"><span class="system-chip">INICIO VERIFICADO</span><span class="homebrew-size">NES · FREEWARE</span></div>
+          <h3>Solar Wars</h3>
+          <p>Combate de tanques por turnos en distintos planetas. Arranca en JSNES y muestra Canvas. El juego original es de 2 jugadores, pero los controles para el segundo jugador y la partida completa aún no se han probado.</p>
+          <div class="homebrew-actions"><button class="file-picker" id="load-solar-wars" type="button">JUGAR EN ESTA PÁGINA</button><a href="../games/nes/solar-wars/README.TXT">Leer nota original ↗</a></div>
+        </article>
+        <article class="homebrew-card">
+          <div class="homebrew-top"><span class="system-chip">ENLACE OFICIAL</span><span class="homebrew-size">NES · 1–2 JUGADORES</span></div>
+          <h3>Spacegulls</h3>
+          <p>Plataformas de Morphcat Games, disponible como ROM en su página con precio “paga lo que quieras”. No alojamos su archivo aquí; su carga con JSNES todavía no está verificada.</p>
+          <div class="homebrew-actions"><a class="file-picker" href="https://morphcatgames.itch.io/spacegulls" target="_blank" rel="noopener noreferrer">IR A LA PÁGINA DEL AUTOR ↗</a><span>Luego selecciona tu archivo .nes arriba.</span></div>
+        </article>
+      </div>
+    </section>
+
     <section class="safety-notes" aria-label="Privacidad y limitaciones">
       <h2>Antes de jugar</h2>
       <ul>
         <li>El archivo se lee desde el selector local del navegador; esta página no contiene una función para subirlo ni enviarlo a un servidor.</li>
-        <li>PlayNexo no aloja ni distribuye juegos, firmware o ROMs. La persona usuaria debe asegurarse de tener derecho a usar su archivo.</li>
+        <li>PlayNexo incluye solo Solar Wars, cuya nota original autoriza su transmisión gratuita; los demás juegos no se alojan aquí. Usa solo archivos que tengas derecho a utilizar.</li>
         <li>Solo se ha integrado NES/Famicom en esta prueba. Esto no emula PS3, PS4, PS5, Nintendo Switch ni Xbox.</li>
         <li>El código de JSNES 3.0.0 se aloja en este repositorio bajo Apache License 2.0; revisa el <a href="../vendor/jsnes/3.0.0/LICENSE">aviso de licencia</a>.</li>
       </ul>

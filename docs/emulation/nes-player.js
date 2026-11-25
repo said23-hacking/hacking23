@@ -6,6 +6,7 @@ const screen = document.querySelector("#nes-screen");
 const placeholder = document.querySelector("#screen-placeholder");
 const status = document.querySelector("#player-status");
 const unloadButton = document.querySelector("#unload-rom");
+const solarWarsButton = document.querySelector("#load-solar-wars");
 let emulator = null;
 const heldPointers = new Map();
 
@@ -79,6 +80,31 @@ async function loadLocalRom(file) {
 }
 
 input.addEventListener("change", () => loadLocalRom(input.files?.[0]));
+solarWarsButton.addEventListener("click", async () => {
+  stopEmulator();
+  setStatus("Cargando Solar Wars desde los archivos de PlayNexo…");
+  try {
+    const response = await fetch("../games/nes/solar-wars/SolarWars2001.NES");
+    if (!response.ok) throw new Error("No se encontró el archivo de Solar Wars.");
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (bytes.length > MAX_ROM_BYTES || bytes[0] !== 0x4e || bytes[1] !== 0x45 || bytes[2] !== 0x53 || bytes[3] !== 0x1a) {
+      throw new Error("El archivo incluido no es una ROM iNES válida.");
+    }
+    emulator = new Browser({
+      container: screen,
+      onError(error) {
+        setStatus(`El emulador encontró un error: ${error.message || "archivo o juego incompatible"}`, "error");
+      },
+    });
+    emulator.loadROM(bytes);
+    placeholder.hidden = true;
+    unloadButton.disabled = false;
+    setStatus("Solar Wars está en ejecución. Esta copia freeware está incluida con su nota original.", "success");
+  } catch (error) {
+    stopEmulator();
+    setStatus(`No se pudo iniciar Solar Wars: ${error.message || "error de carga"}`, "error");
+  }
+});
 unloadButton.addEventListener("click", () => {
   stopEmulator();
   setStatus("Se cerró la partida y se liberaron las referencias del archivo de la sesión.");
